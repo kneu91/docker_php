@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+  php_portal:
+    build:
+      context: .docker/php_portal
+      dockerfile: Dockerfile
+    container_name: php_portal
+    volumes:
+      - ./www/:/var/www/html/
+    ports:
+      - 8001:80
+
+#  database_css:
+#    build:
+#      context: .docker/database_css
+#    environment:
+#      - MYSQL_DATABASE=test
+#      - MYSQL_USER=user
+#      - MYSQL_PASSWORD=pass
+#      - MYSQL_ROOT_PASSWORD=pass
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - ./.docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+#      - ./.docker/database/data:/var/lib/mysql
+  database_portal:
+    build:
+      context: .docker/database_portal
+    environment:
+      - MYSQL_DATABASE=portal
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+      - MYSQL_ROOT_PASSWORD=pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./.docker/database_portal/portal.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./.docker/database_portal/data:/var/lib/mysql
